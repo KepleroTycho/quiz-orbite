@@ -302,11 +302,10 @@ export default function App() {
             </p>
           ) : (
             <div className="overflow-hidden rounded-card border border-border bg-card/70 backdrop-blur-sm">
-              <div className="grid grid-cols-[2rem_1fr_3.5rem_4rem_4.5rem] items-center gap-3 border-b border-border px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground">
+              <div className="grid grid-cols-[2rem_1fr_3.5rem_4rem] items-center gap-3 border-b border-border px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground">
                 <span>#</span>
                 <span>Nickname</span>
-                <span className="text-right">Giuste</span>
-                <span className="text-right">Tempo</span>
+                <span className="text-right">Corrette</span>
                 <span className="text-right">Pts</span>
               </div>
               <ol className="divide-y divide-border">
@@ -314,7 +313,7 @@ export default function App() {
                   <li
                     key={e.id}
                     className={cn(
-                      "grid grid-cols-[2rem_1fr_3.5rem_4rem_4.5rem] items-center gap-3 px-4 py-3 text-sm",
+                      "grid grid-cols-[2rem_1fr_3.5rem_4rem] items-center gap-3 px-4 py-3 text-sm",
                       i === 0 && "bg-gradient-to-r from-primary/40 via-primary/20 to-transparent",
                       i === 1 && "bg-gradient-to-r from-primary/28 via-primary/12 to-transparent",
                       i === 2 && "bg-gradient-to-r from-primary/18 via-primary/8 to-transparent",
@@ -331,17 +330,15 @@ export default function App() {
                     </span>
                     <span className="min-w-0 truncate font-medium">{e.nickname}</span>
                     <span className="text-right font-mono">{e.score}/{questions.length}</span>
-                    <span className="text-right font-mono text-muted-foreground">{fmt(e.seconds)}</span>
                     <span className="text-right font-mono font-semibold text-primary">{e.points}</span>
                   </li>
                 ))}
               </ol>
               {result && !board.some((e) => e.id === result.id) && (
-                <div className="grid grid-cols-[2rem_1fr_3.5rem_4rem_4.5rem] items-center gap-3 border-t border-dashed border-border px-4 py-3 text-sm ring-1 ring-inset ring-primary/70 shadow-[inset_0_0_24px_rgba(124,184,255,0.18)]">
+                <div className="grid grid-cols-[2rem_1fr_3.5rem_4rem] items-center gap-3 border-t border-dashed border-border px-4 py-3 text-sm ring-1 ring-inset ring-primary/70 shadow-[inset_0_0_24px_rgba(124,184,255,0.18)]">
                   <span className="font-mono text-primary">{result.rank}</span>
                   <span className="min-w-0 truncate font-medium">{nick}</span>
                   <span className="text-right font-mono">{result.score}/{questions.length}</span>
-                  <span className="text-right font-mono text-muted-foreground">{fmt(elapsed)}</span>
                   <span className="text-right font-mono font-semibold text-primary">{result.points}</span>
                 </div>
               )}
