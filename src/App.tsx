@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Timer, Trophy, Check, X, Telescope } from "lucide-react";
+import { Timer, Trophy, Check, X, BookOpen, Telescope } from "lucide-react";
 import { questions, pointsFor } from "./data/questions";
 import { getLeaderboard, submitScore, checkNickname, type Entry } from "./lib/api";
 import { cn } from "./lib/cn";
+import Laboratory from "./Laboratory";
 
 function fmt(s: number) {
   const m = Math.floor(s / 60);
@@ -13,6 +14,7 @@ function fmt(s: number) {
 type Phase = "start" | "play" | "end";
 
 export default function App() {
+  const [view, setView] = useState<"home" | "quiz" | "lab">("home");
   const [board, setBoard] = useState<Entry[]>([]);
   const [boardReady, setBoardReady] = useState(false);
   const [phase, setPhase] = useState<Phase>("start");
@@ -156,7 +158,24 @@ export default function App() {
         className="pointer-events-none absolute left-1/2 top-[-12rem] size-[32rem] -translate-x-1/2 rounded-full border border-primary/20"
       />
 
-      <div className="relative mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-16">
+      {view === "lab" && <Laboratory onBack={() => setView("home")} />}
+      {view === "home" && (
+        <div className="relative mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-4 py-12 text-center sm:px-6">
+          <p className="mb-4 flex items-center gap-2 text-sm uppercase tracking-[0.25em] text-primary"><Telescope className="size-4" /> Uraniborg · Praga</p>
+          <h1 className="font-display text-4xl font-bold sm:text-6xl">Keplero e Tycho Brahe</h1>
+          <p className="mt-4 max-w-prose text-muted-foreground">Dalle osservazioni di Tycho Brahe alle leggi di Keplero: mettiti alla prova oppure esplora il Sistema solare.</p>
+          <div className="mt-10 grid w-full max-w-xl gap-4 sm:grid-cols-2">
+            <button onClick={() => setView("quiz")} className="flex min-h-40 flex-col items-center justify-center gap-3 rounded-card border border-border bg-card/80 p-6 text-left transition hover:border-primary hover:bg-card">
+              <Telescope className="size-9 text-primary" /><span className="font-display text-2xl font-semibold">Quiz</span><span className="text-sm text-muted-foreground">Verifica le tue conoscenze e scala la classifica.</span>
+            </button>
+            <button onClick={() => setView("lab")} className="flex min-h-40 flex-col items-center justify-center gap-3 rounded-card border border-border bg-card/80 p-6 text-left transition hover:border-primary hover:bg-card">
+              <BookOpen className="size-9 text-primary" /><span className="font-display text-2xl font-semibold">Laboratorio</span><span className="text-sm text-muted-foreground">Tre esperienze interattive di astronomia.</span>
+            </button>
+          </div>
+        </div>
+      )}
+      {view === "quiz" && <div className="relative mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-16">
+        <div className="mb-6 text-center"><button onClick={() => setView("home")} className="min-h-11 rounded-btn border border-border bg-card/70 px-4 text-sm hover:border-primary">← Torna alla scelta</button></div>
         <header className="mb-10 text-center">
           <p className="mb-3 flex items-center justify-center gap-2 text-sm uppercase tracking-[0.25em] text-primary">
             <Telescope className="size-4" /> Uraniborg · Praga
@@ -346,7 +365,7 @@ export default function App() {
           )}
         </section>
         )}
-      </div>
+      </div>}
     </main>
   );
 }
